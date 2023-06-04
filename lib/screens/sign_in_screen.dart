@@ -3,15 +3,24 @@ import 'package:coda_flex/widgets/primary_button.dart';
 import 'package:coda_flex/widgets/text_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../widgets/custom_text_field.dart';
+import '../widgets/social_login_button.dart';
 
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
   @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+ 
+
+class _SignInScreenState extends State<SignInScreen> {
+   bool switchValue = true; 
+  @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -53,7 +62,11 @@ class SignInScreen extends StatelessWidget {
                     children: [
                       CupertinoSwitch(
                         activeColor: kAccent1Color,
-                        value: true, onChanged: (value) {} ,),
+                        value: switchValue, onChanged: (value) {
+                          setState(() {
+                            switchValue = value;
+                          });
+                        } ,),
                         const Gap(10),
                         const TextWidget(text: 'Remember me', weight: FontWeight.w400, size: 14, color: kPrimaryColor,)
                     ],
@@ -118,90 +131,3 @@ class SignInScreen extends StatelessWidget {
   }
 }
 
-class SocialLoginButton extends StatelessWidget {
-  final String buttonTitle;
-  final String image;
-  const SocialLoginButton({
-    super.key, required this.buttonTitle, required this.image,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        elevation: 0,
-        side: const BorderSide(
-          color: Color(0xffD0D5DD)
-        ),
-         shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5)
-      ),
-        backgroundColor: Colors.white,
-        fixedSize: const Size.fromWidth(335),
-        maximumSize: const Size.fromHeight(48),
-      ),
-      onPressed: () {}, child:  Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SvgPicture.asset(image, height: 30,),
-        const Gap(14),
-
-        TextWidget(text: buttonTitle, weight: FontWeight.w400, size: 16, color: kSecondarColor,),
-
-      ],
-    ));
-  }
-}
-
-class CustomTextField extends StatelessWidget {
-  final String hintText;
-  final IconData? icon;
-  final bool? obSecure;
-  final TextInputType keyBoardType;
- 
-  const CustomTextField({
-    super.key, required this.hintText,  this.icon, this.obSecure, required this.keyBoardType,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-     height: 48,
-      child: TextFormField(
-        obscureText: false,
-        keyboardType: keyBoardType,
-       style: GoogleFonts.inter(
-           fontSize: 16,
-           fontWeight: FontWeight.w400, 
-           color: kPrimaryColor
-         ),
-       decoration: InputDecoration(
-        suffixIcon:  Icon(icon),
-        
-         contentPadding: const EdgeInsets.only(top: 12, bottom: 12, left: 14, right: 14) ,
-         hintText: hintText,
-         hintStyle: GoogleFonts.inter(
-           fontSize: 16,
-           fontWeight: FontWeight.w400, 
-           color: kPrimaryColor
-         ),
-        enabledBorder: OutlineInputBorder(
-         borderRadius: BorderRadius.circular(8),
-         borderSide: const BorderSide(
-           color: Color(0xffD0D5DD),
-           
-         )
-        ),
-        focusedBorder: OutlineInputBorder(
-         borderRadius: BorderRadius.circular(8),
-         borderSide: const BorderSide(
-           color: Color(0xffD0D5DD),
-           
-         )
-        ),
-       ),
-      ),
-    );
-  }
-}
